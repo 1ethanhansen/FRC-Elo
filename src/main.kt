@@ -35,7 +35,7 @@ class Team (var number: Int,
 
 fun main() {
     //Always start with us as the root node
-    val root = Node(Team(4043, "NerdHerd", 1300.0))
+    val root = Node(Team(4043, "NerdHerd"))
     val redAlliance: Array<Int> = arrayOf(0, 1, 2)
     val blueAlliance: Array<Int> = arrayOf(0, 1, 2)
 
@@ -90,7 +90,7 @@ fun main() {
         var redChance = 1.0 / (1 + 10.0.pow((blueAllianceAverage - redAllianceAverage) / 400.0))
         var blueChance = 1 - redChance
         println("Red alliance has a ${redChance * 100}% chance of winning, giving blue alliance a " +
-                "${blueChance * 100 } chance of winning")
+                "${blueChance * 100 }% chance of winning")
 
         //get actual match info
         println("Enter R for red alliance winning or B for blue alliance winning")
@@ -99,8 +99,8 @@ fun main() {
         val blueScore = if(winningStr == "B") 1 else 0
 
         //update elo ratings
-        val newRedRating = redAllianceAverage + 32 * (redScore - redChance)
-        val newBlueRating = blueAllianceAverage + 32 * (blueScore - blueChance)
+        val newRedRating = redAllianceAverage + 64 * (redScore - redChance)
+        val newBlueRating = blueAllianceAverage + 64 * (blueScore - blueChance)
 
         redAlliance.forEach { root.find(it)?.key!!.rating = (root.find(it)?.key!!.rating + newRedRating) / 2 }
         blueAlliance.forEach { root.find(it)?.key!!.rating = (root.find(it)?.key!!.rating + newBlueRating) / 2 }
