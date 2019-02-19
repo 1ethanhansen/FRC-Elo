@@ -42,7 +42,7 @@ fun runMatch() {
         //PRS
         val inputStr = readLine()
         if (inputStr == null) {
-            println("Hey that's null idiot")
+            println("Hey that's null idiot")    //Not nice but idc
             return
         }
         val inputNumber = inputStr.toInt()
