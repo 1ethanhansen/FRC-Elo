@@ -1,3 +1,4 @@
+import java.io.File
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -7,6 +8,8 @@ class Team (var number: Int,
             var name: String,
             var rating: Double = 1000.0)
 
+val defaultFilePath = "C:\\Users\\Ethan Hansen\\Desktop\\eloJSON\\elo.txt"
+
 val emptyTeam= Team(0, "0")
 
 val redAlliance = Array(3){emptyTeam}
@@ -14,11 +17,16 @@ val blueAlliance = Array(3){emptyTeam}
 val teamsByRank = mutableListOf<Team>()
 
 fun main() {
-
-
     //Constantly runs
     while (true) {
-
+        print("What do you want to do? run (m)atch (d)isplay ratings\n(l)oad from .json (s)ave to JSON ")
+        val commandStr = readLine()
+        when (commandStr?.toLowerCase()) {
+            "m" -> runMatch()
+            "d" -> printRankings()
+            "l" -> loadFromFile()
+            "s" -> saveToFile()
+        }
     }
 }
 
@@ -95,4 +103,15 @@ fun printRankings() {
     teamsByRank.forEach { println("${it.rating.roundToInt().toString().padEnd(5, '-')}-" +
             "-${it.name.padEnd(20, '-')}" +
             "-${it.number.toString().padEnd(5, '-')}") }
+
+    saveToFile()
+}
+
+fun loadFromFile() {
+
+}
+
+fun saveToFile() {
+    teamsByRank.forEach { File(defaultFilePath).printWriter().use { out -> out.println(
+        "${it.number}\n${it.name}\n${it.rating}\n") } }
 }
