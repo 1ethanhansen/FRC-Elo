@@ -19,7 +19,7 @@ val teamsByRank = mutableListOf<Team>()
 fun main() {
     //Constantly runs
     while (true) {
-        print("What do you want to do? run (m)atch (d)isplay ratings\n(l)oad from .json (s)ave to JSON ")
+        print("What do you want to do? run (m)atch (d)isplay ratings\n(l)oad from file (s)ave to file ")
         val commandStr = readLine()
         when (commandStr?.toLowerCase()) {
             "m" -> runMatch()
@@ -112,6 +112,6 @@ fun loadFromFile() {
 }
 
 fun saveToFile() {
-    teamsByRank.forEach { File(defaultFilePath).printWriter().use { out -> out.println(
-        "${it.number}\n${it.name}\n${it.rating}\n") } }
+    File(defaultFilePath).printWriter().use { out -> teamsByRank.forEach { out.println(
+        "${it.number}\n${it.name}\n${it.rating}\n") }}
 }
