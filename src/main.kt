@@ -8,9 +8,9 @@ class Team (var number: Int,
             var name: String,
             var rating: Double = 1000.0)
 
-val defaultFilePath = "C:\\Users\\Ethan Hansen\\Desktop\\eloJSON\\elo.txt"
+const val defaultFilePath = "C:\\Users\\Ethan Hansen\\Desktop\\eloJSON\\elo.txt"
 
-val emptyTeam= Team(0, "0")
+val emptyTeam = Team(0, "0")
 
 val redAlliance = Array(3){emptyTeam}
 val blueAlliance = Array(3){emptyTeam}
@@ -108,10 +108,18 @@ fun printRankings() {
 }
 
 fun loadFromFile() {
+    var readInputs: List<String> = File(defaultFilePath).readLines()
 
+    for (i in readInputs) {
+        val m_readDataList = i.split('\t')
+
+        val readTeam = Team(m_readDataList[0].toInt(), m_readDataList[1], m_readDataList[2].toDouble())
+
+        teamsByRank.add(0, readTeam)
+    }
 }
 
 fun saveToFile() {
     File(defaultFilePath).printWriter().use { out -> teamsByRank.forEach { out.println(
-        "${it.number}\n${it.name}\n${it.rating}\n") }}
+        "${it.number}\t${it.name}\t${it.rating}") }}
 }
