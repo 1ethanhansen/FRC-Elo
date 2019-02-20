@@ -8,7 +8,7 @@ class Team (var number: Int,
             var name: String,
             var rating: Double = 1000.0)
 
-const val defaultFilePath = "C:\\Users\\Ethan Hansen\\Desktop\\eloJSON\\elo.txt"
+const val defaultFilePath = "C:\\Users\\Ethan Hansen\\Documents\\GitHub\\FRC-Elo\\elo.txt"
 
 val emptyTeam = Team(0, "0")
 
