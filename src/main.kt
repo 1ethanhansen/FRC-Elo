@@ -1,5 +1,6 @@
 import java.io.File
 import kotlin.math.pow
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 
@@ -84,8 +85,8 @@ fun runMatch() {
     //Find chances of winning
     val redChance = 1.0 / (1 + 10.0.pow((blueAllianceAverage - redAllianceAverage) / 400.0))
     val blueChance = 1 - redChance
-    println("Red alliance has a ${redChance * 100}% chance of winning, giving blue alliance a " +
-            "${blueChance * 100 }% chance of winning")
+    println("Red alliance has a ${(redChance * 100).roundToInt()}% chance of winning, giving blue alliance a " +
+            "${(blueChance * 100).roundToInt()}% chance of winning")
 
     //get actual match info
     println("Enter R for red alliance winning or B for blue alliance winning")
@@ -100,9 +101,9 @@ fun runMatch() {
     blueAlliance.forEach { it.rating = (it.rating + newBlueRating) / 2 }
 
     if (redScore == 1 && redChance < 49) {
-        addUpset()
+        addUpset(redChance, "RED")
     } else if (blueScore == 1 && blueChance < 49) {
-        addUpset()
+        addUpset(blueChance, "BLUE")
     }
 }
 
@@ -144,10 +145,10 @@ fun listUpsets() {
     }
 }
 
-fun addUpset() {
+fun addUpset(percent: Double, underdog: String) {
     print("WHOA that was crazy. What match was that? ")
     val matchStr = readLine()
     listOfUpsets.add(0, matchStr!!)
 
-    File(defaultFilePath + "upsets.txt").printWriter().use { out -> listOfUpsets.forEach { out.println(it) }}
+    File(defaultFilePath + "upsets.txt").printWriter().use { out -> listOfUpsets.forEach { out.println("$it\t$percent\t$underdog") }}
 }
