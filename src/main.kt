@@ -8,7 +8,7 @@ class Team (var number: Int,
             var name: String,
             var rating: Double = 1000.0)
 
-const val defaultFilePath = "C:\\Users\\Ethan Hansen\\Documents\\GitHub\\FRC-Elo\\elo.txt"
+const val defaultFilePath = "C:\\Users\\Ethan Hansen\\Documents\\GitHub\\FRC-Elo\\"
 
 val emptyTeam = Team(0, "0")
 
@@ -16,16 +16,20 @@ val redAlliance = Array(3){emptyTeam}
 val blueAlliance = Array(3){emptyTeam}
 val teamsByRank = mutableListOf<Team>()
 
+val listOfUpsets = mutableListOf<String>()
+
 fun main() {
+    loadFromFile()
     //Constantly runs
     while (true) {
-        print("What do you want to do? run (m)atch (d)isplay ratings\n(l)oad from file (s)ave to file ")
+        print("What do you want to do? run (m)atch (d)isplay ratings\n(l)oad from file (s)ave to file (u)psets ")
         val commandStr = readLine()
         when (commandStr?.toLowerCase()) {
             "m" -> runMatch()
             "d" -> printRankings()
             "l" -> loadFromFile()
             "s" -> saveToFile()
+            "u" -> listUpsets()
         }
     }
 }
@@ -94,6 +98,12 @@ fun runMatch() {
     val newBlueRating = blueAllianceAverage + 64 * (blueScore - blueChance)
     redAlliance.forEach { it.rating = (it.rating + newRedRating) / 2 }
     blueAlliance.forEach { it.rating = (it.rating + newBlueRating) / 2 }
+
+    if (redScore == 1 && redChance < 49) {
+        addUpset()
+    } else if (blueScore == 1 && blueChance < 49) {
+        addUpset()
+    }
 }
 
 fun printRankings() {
@@ -108,18 +118,36 @@ fun printRankings() {
 }
 
 fun loadFromFile() {
-    var readInputs: List<String> = File(defaultFilePath).readLines()
+    var readInputs: List<String> = File(defaultFilePath + "elo.txt").readLines()
 
     for (i in readInputs) {
-        val m_readDataList = i.split('\t')
+        val mReadDataList = i.split('\t')
 
-        val readTeam = Team(m_readDataList[0].toInt(), m_readDataList[1], m_readDataList[2].toDouble())
+        val readTeam = Team(mReadDataList[0].toInt(), mReadDataList[1], mReadDataList[2].toDouble())
 
         teamsByRank.add(0, readTeam)
+    }
+    readInputs = File(defaultFilePath + "upsets.txt").readLines()
+    for (j in readInputs) {
+        listOfUpsets.add(0, j)
     }
 }
 
 fun saveToFile() {
-    File(defaultFilePath).printWriter().use { out -> teamsByRank.forEach { out.println(
+    File(defaultFilePath + "elo.txt").printWriter().use { out -> teamsByRank.forEach { out.println(
         "${it.number}\t${it.name}\t${it.rating}") }}
+}
+
+fun listUpsets() {
+    for (i in listOfUpsets) {
+        println(i)
+    }
+}
+
+fun addUpset() {
+    print("WHOA that was crazy. What match was that? ")
+    val matchStr = readLine()
+    listOfUpsets.add(0, matchStr!!)
+
+    File(defaultFilePath + "upsets.txt").printWriter().use { out -> listOfUpsets.forEach { out.println(it) }}
 }
