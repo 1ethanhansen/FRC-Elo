@@ -40,10 +40,10 @@ fun runMatch() {
         //finding which alliance color and station
         val driverStationInt = i % 3 + 1
         val allianceInt = i / 3
-        print("Enter the team number in ${if(allianceInt == 0) "RED" else "BLUE"} " +
-                "alliance station $driverStationInt : ")
 
         //PRS
+        print("Enter the team number in ${if(allianceInt == 0) "RED" else "BLUE"} " +
+                "alliance station $driverStationInt : ")
         val inputStr = readLine()
         if (inputStr == null) {
             println("Hey that's null idiot")    //Not nice but idc
