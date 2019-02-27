@@ -94,10 +94,10 @@ fun runMatch() {
     val blueScore = if(winningStr == "B") 1 else 0
 
     //update elo ratings
-    val newRedRating = redAllianceAverage + 64 * (redScore - redChance)
-    val newBlueRating = blueAllianceAverage + 64 * (blueScore - blueChance)
-    redAlliance.forEach { it.rating = (it.rating + newRedRating) / 2 }
-    blueAlliance.forEach { it.rating = (it.rating + newBlueRating) / 2 }
+    val newRedRatingDelta = 64 * (redScore - redChance)
+    val newBlueRatingDelta = 64 * (blueScore - blueChance)
+    redAlliance.forEach { it.rating = it.rating + newRedRatingDelta }
+    blueAlliance.forEach { it.rating = it.rating + newBlueRatingDelta }
 
     if (redScore == 1 && redChance < 49) {
         addUpset(redChance, "RED")
