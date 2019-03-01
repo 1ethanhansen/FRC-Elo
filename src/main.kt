@@ -96,12 +96,12 @@ fun runMatch() {
     //update elo ratings
     val newRedRatingDelta = 64 * (redScore - redChance)
     val newBlueRatingDelta = 64 * (blueScore - blueChance)
-    redAlliance.forEach { it.rating = it.rating + newRedRatingDelta }
-    blueAlliance.forEach { it.rating = it.rating + newBlueRatingDelta }
+    redAlliance.forEach { it.rating += newRedRatingDelta }
+    blueAlliance.forEach { it.rating += newBlueRatingDelta }
 
-    if (redScore == 1 && redChance < 49) {
+    if (redScore == 1 && redChance < .49) {
         addUpset(redChance, "RED")
-    } else if (blueScore == 1 && blueChance < 49) {
+    } else if (blueScore == 1 && blueChance < .49) {
         addUpset(blueChance, "BLUE")
     }
 }
@@ -110,9 +110,9 @@ fun printRankings() {
     //Sort teams by rating
     teamsByRank.sortByDescending { it.rating }
 
-    teamsByRank.forEach { println("${it.rating.roundToInt().toString().padEnd(5, '-')}-" +
-            "-${it.name.padEnd(20, '-')}" +
-            "-${it.number.toString().padEnd(5, '-')}") }
+    teamsByRank.forEach { println(it.rating.roundToInt().toString().padEnd(5, '-') +
+            it.name.padEnd(20, '-') +
+            it.number.toString().padEnd(5, '-')) }
 
     saveToFile()
 }
