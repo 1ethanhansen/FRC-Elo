@@ -22,12 +22,11 @@ fun main() {
     loadFromFile()
     //Constantly runs
     while (true) {
-        print("What do you want to do? run (m)atch (d)isplay ratings\n(l)oad from file (s)ave to file (u)psets ")
+        print("What do you want to do? run (m)atch (d)isplay ratings\n(s)ave to file (u)psets ")
         val commandStr = readLine()
         when (commandStr?.toLowerCase()) {
             "m" -> runMatch()
             "d" -> printRankings()
-            "l" -> loadFromFile()
             "s" -> saveToFile()
             "u" -> listUpsets()
         }
@@ -112,7 +111,7 @@ fun printRankings() {
 
     teamsByRank.forEach { println(it.rating.roundToInt().toString().padEnd(5, '-') +
             it.name.padEnd(20, '-') +
-            it.number.toString().padEnd(5, '-')) }
+            it.number.toString()) }
 
     saveToFile()
 }
